@@ -5,16 +5,6 @@
     <!-- SSDL content -->
     <edmx:StorageModels>
     <Schema Namespace="TourismWebsiteDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
-        <EntityType Name="__MigrationHistory">
-          <Key>
-            <PropertyRef Name="MigrationId" />
-            <PropertyRef Name="ContextKey" />
-          </Key>
-          <Property Name="MigrationId" Type="nvarchar" MaxLength="150" Nullable="false" />
-          <Property Name="ContextKey" Type="nvarchar" MaxLength="300" Nullable="false" />
-          <Property Name="Model" Type="varbinary(max)" Nullable="false" />
-          <Property Name="ProductVersion" Type="nvarchar" MaxLength="32" Nullable="false" />
-        </EntityType>
         <EntityType Name="BlogSpaces">
           <Key>
             <PropertyRef Name="Id" />
@@ -22,6 +12,9 @@
           <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Title" Type="nvarchar(max)" />
           <Property Name="LocationId" Type="int" Nullable="false" />
+          <Property Name="BlogText" Type="nvarchar(max)" />
+          <Property Name="ImageLocation" Type="nvarchar(max)" />
+          <Property Name="LocationName" Type="nvarchar(max)" />
           <Property Name="Isactive" Type="bit" />
           <Property Name="Createdby" Type="int" Nullable="false" />
         </EntityType>
@@ -34,6 +27,7 @@
           <Property Name="HotelName" Type="nvarchar(max)" />
           <Property Name="Price" Type="int" Nullable="false" />
           <Property Name="Hoteltype" Type="int" Nullable="false" />
+          <Property Name="hotelImage" Type="varchar" MaxLength="200" />
         </EntityType>
         <EntityType Name="Locations">
           <Key>
@@ -50,22 +44,22 @@
           <Key>
             <PropertyRef Name="id" />
           </Key>
-          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="UserName" Type="nvarchar" MaxLength="50" />
-          <Property Name="Password" Type="nvarchar" MaxLength="50" />
+          <Property Name="id" Type="int" Nullable="false" />
+          <Property Name="UserName" Type="varchar" MaxLength="50" />
+          <Property Name="Password" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="Packages">
           <Key>
             <PropertyRef Name="PackageId" />
           </Key>
-          <Property Name="PackageId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="PackageId" Type="int" Nullable="false" />
           <Property Name="PlaceName" Type="varchar" MaxLength="50" />
           <Property Name="NoOfDays" Type="int" />
           <Property Name="NoOfNights" Type="int" />
           <Property Name="NoOfPerson" Type="int" />
           <Property Name="Price" Type="int" />
-          <Property Name="Image" Type="varchar" MaxLength="500" />
-          <Property Name="Description" Type="varchar" MaxLength="1000" />
+          <Property Name="Image" Type="varchar" MaxLength="50" />
+          <Property Name="Description" Type="varchar" MaxLength="50" />
         </EntityType>
         <EntityType Name="TouristPlaces">
           <Key>
@@ -169,20 +163,7 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_TouristPlaces_TouristPlaces">
-          <End Role="TouristPlaces" Type="Self.TouristPlaces" Multiplicity="1" />
-          <End Role="TouristPlaces1" Type="Self.TouristPlaces" Multiplicity="0..1" />
-          <ReferentialConstraint>
-            <Principal Role="TouristPlaces">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="TouristPlaces1">
-              <PropertyRef Name="Id" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <EntityContainer Name="TourismWebsiteDBModelStoreContainer">
-          <EntitySet Name="__MigrationHistory" EntityType="Self.__MigrationHistory" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="BlogSpaces" EntityType="Self.BlogSpaces" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Hotels" EntityType="Self.Hotels" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Locations" EntityType="Self.Locations" Schema="dbo" store:Type="Tables" />
@@ -211,25 +192,11 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="UserReviews" EntitySet="UserReviews" />
           </AssociationSet>
-          <AssociationSet Name="FK_TouristPlaces_TouristPlaces" Association="Self.FK_TouristPlaces_TouristPlaces">
-            <End Role="TouristPlaces" EntitySet="TouristPlaces" />
-            <End Role="TouristPlaces1" EntitySet="TouristPlaces" />
-          </AssociationSet>
         </EntityContainer>
       </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="TourismWebsiteDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
-        <EntityType Name="C__MigrationHistory">
-          <Key>
-            <PropertyRef Name="MigrationId" />
-            <PropertyRef Name="ContextKey" />
-          </Key>
-          <Property Name="MigrationId" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="ContextKey" Type="String" MaxLength="300" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="Model" Type="Binary" MaxLength="Max" FixedLength="false" Nullable="false" />
-          <Property Name="ProductVersion" Type="String" MaxLength="32" FixedLength="false" Unicode="true" Nullable="false" />
-        </EntityType>
         <EntityType Name="BlogSpace">
           <Key>
             <PropertyRef Name="Id" />
@@ -241,6 +208,9 @@
           <Property Name="Createdby" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Location" Relationship="Self.FK_dbo_BlogSpaces_dbo_Locations_LocationId" FromRole="BlogSpaces" ToRole="Locations" />
           <NavigationProperty Name="User" Relationship="Self.FK_dbo_BlogSpaces_dbo_Users_Createdby" FromRole="BlogSpaces" ToRole="Users" />
+          <Property Name="BlogText" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ImageLocation" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="LocationName" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Hotel">
           <Key>
@@ -252,6 +222,7 @@
           <Property Name="Price" Type="Int32" Nullable="false" />
           <Property Name="Hoteltype" Type="Int32" Nullable="false" />
           <NavigationProperty Name="Location" Relationship="Self.FK_dbo_Hotels_dbo_Locations_LocationId" FromRole="Hotels" ToRole="Locations" />
+          <Property Name="hotelImage" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="Location">
           <Key>
@@ -376,7 +347,6 @@
           </ReferentialConstraint>
         </Association>
         <EntityContainer Name="TourismWebsiteDBEntities" annotation:LazyLoadingEnabled="true">
-          <EntitySet Name="C__MigrationHistory" EntityType="Self.C__MigrationHistory" />
           <EntitySet Name="BlogSpaces" EntityType="Self.BlogSpace" />
           <EntitySet Name="Hotels" EntityType="Self.Hotel" />
           <EntitySet Name="Locations" EntityType="Self.Location" />
@@ -403,21 +373,13 @@
             <End Role="Users" EntitySet="Users" />
             <End Role="UserReviews" EntitySet="UserReviews" />
           </AssociationSet>
-          <EntitySet Name="Memberships" EntityType="TourismWebsiteDBModel.Membership" />
           <AssociationSet Name="FK_TouristPlaces_TouristPlaces" Association="TourismWebsiteDBModel.FK_TouristPlaces_TouristPlaces">
             <End Role="TouristPlace" EntitySet="TouristPlaces" />
             <End Role="TouristPlace1" EntitySet="TouristPlaces" />
           </AssociationSet>
+          <EntitySet Name="Memberships" EntityType="TourismWebsiteDBModel.Membership" />
           <EntitySet Name="Packages" EntityType="TourismWebsiteDBModel.Package" />
         </EntityContainer>
-        <EntityType Name="Membership">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
-        </EntityType>
         <Association Name="FK_TouristPlaces_TouristPlaces">
           <End Type="TourismWebsiteDBModel.TouristPlace" Role="TouristPlace" Multiplicity="1" />
           <End Type="TourismWebsiteDBModel.TouristPlace" Role="TouristPlace1" Multiplicity="0..1" />
@@ -430,18 +392,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="Membership">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
         <EntityType Name="Package">
           <Key>
             <PropertyRef Name="PackageId" />
           </Key>
-          <Property Name="PackageId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="PackageId" Type="Int32" Nullable="false" />
           <Property Name="PlaceName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="NoOfDays" Type="Int32" />
           <Property Name="NoOfNights" Type="Int32" />
           <Property Name="NoOfPerson" Type="Int32" />
           <Property Name="Price" Type="Int32" />
-          <Property Name="Image" Type="String" MaxLength="500" FixedLength="false" Unicode="false" />
-          <Property Name="Description" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
+          <Property Name="Image" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
         </EntityType>
       </Schema>
     </edmx:ConceptualModels>
@@ -449,19 +419,12 @@
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="TourismWebsiteDBModelStoreContainer" CdmEntityContainer="TourismWebsiteDBEntities">
-          <EntitySetMapping Name="C__MigrationHistory">
-            <EntityTypeMapping TypeName="TourismWebsiteDBModel.C__MigrationHistory">
-              <MappingFragment StoreEntitySet="__MigrationHistory">
-                <ScalarProperty Name="MigrationId" ColumnName="MigrationId" />
-                <ScalarProperty Name="ContextKey" ColumnName="ContextKey" />
-                <ScalarProperty Name="Model" ColumnName="Model" />
-                <ScalarProperty Name="ProductVersion" ColumnName="ProductVersion" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="BlogSpaces">
             <EntityTypeMapping TypeName="TourismWebsiteDBModel.BlogSpace">
               <MappingFragment StoreEntitySet="BlogSpaces">
+                <ScalarProperty Name="LocationName" ColumnName="LocationName" />
+                <ScalarProperty Name="ImageLocation" ColumnName="ImageLocation" />
+                <ScalarProperty Name="BlogText" ColumnName="BlogText" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="Title" ColumnName="Title" />
                 <ScalarProperty Name="LocationId" ColumnName="LocationId" />
@@ -473,6 +436,7 @@
           <EntitySetMapping Name="Hotels">
             <EntityTypeMapping TypeName="TourismWebsiteDBModel.Hotel">
               <MappingFragment StoreEntitySet="Hotels">
+                <ScalarProperty Name="hotelImage" ColumnName="hotelImage" />
                 <ScalarProperty Name="Id" ColumnName="Id" />
                 <ScalarProperty Name="LocationId" ColumnName="LocationId" />
                 <ScalarProperty Name="HotelName" ColumnName="HotelName" />

@@ -5,7 +5,6 @@
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
       <Diagram DiagramId="444fab0106f6413ea2d33416b7581d14" Name="Diagram1">
-        <EntityTypeShape EntityType="TourismWebsiteDBModel.C__MigrationHistory" Width="1.5" PointX="5.75" PointY="1.75" IsExpanded="true" />
         <EntityTypeShape EntityType="TourismWebsiteDBModel.BlogSpace" Width="1.5" PointX="3" PointY="3" IsExpanded="true" />
         <EntityTypeShape EntityType="TourismWebsiteDBModel.Hotel" Width="1.5" PointX="3" PointY="6.875" IsExpanded="true" />
         <EntityTypeShape EntityType="TourismWebsiteDBModel.Location" Width="1.5" PointX="0.75" PointY="4.875" IsExpanded="true" />
@@ -17,9 +16,9 @@
         <AssociationConnector Association="TourismWebsiteDBModel.FK_dbo_Hotels_dbo_Locations_LocationId" ManuallyRouted="false" />
         <AssociationConnector Association="TourismWebsiteDBModel.FK_dbo_TouristPlaces_dbo_Locations_LocationId" ManuallyRouted="false" />
         <AssociationConnector Association="TourismWebsiteDBModel.FK_dbo_UserReviews_dbo_Users_Createdby" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="TourismWebsiteDBModel.Membership" Width="1.5" PointX="5.375" PointY="4.75" />
         <AssociationConnector Association="TourismWebsiteDBModel.FK_TouristPlaces_TouristPlaces" />
-        <EntityTypeShape EntityType="TourismWebsiteDBModel.Package" Width="1.5" PointX="7.375" PointY="4.75" />
+        <EntityTypeShape EntityType="TourismWebsiteDBModel.Membership" Width="1.5" PointX="5.375" PointY="0.75" />
+        <EntityTypeShape EntityType="TourismWebsiteDBModel.Package" Width="1.5" PointX="5.375" PointY="3.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

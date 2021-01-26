@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-namespace DataAccessl
+using ProjectDatabaseLib;
+namespace Testdal
 {
-    public interface DataAccessInterface
+    public interface DalInter
     {
         //location
         //user
@@ -39,10 +40,13 @@ namespace DataAccessl
         //double GetHotelPrice(string Name);
         Hotel GetHotelPrice(int id);
 
+
         //admin
         bool InsertHotel(Hotel obj);
         bool UpdateHotel(Hotel obj);
-        bool DeleteHotel(int id);
+        Hotel DeleteHotel(int id);
+
+        Hotel GetHotel(int id);
         List<Hotel> GetAllHotel();
 
         //TouristPlaces:

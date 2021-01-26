@@ -25,7 +25,6 @@ namespace ProjectDatabaseLib
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<C__MigrationHistory> C__MigrationHistory { get; set; }
         public virtual DbSet<BlogSpace> BlogSpaces { get; set; }
         public virtual DbSet<Hotel> Hotels { get; set; }
         public virtual DbSet<Location> Locations { get; set; }

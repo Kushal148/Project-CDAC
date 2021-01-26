@@ -19,6 +19,9 @@ namespace ProjectDatabaseLib
         public int LocationId { get; set; }
         public Nullable<bool> Isactive { get; set; }
         public int Createdby { get; set; }
+        public string BlogText { get; set; }
+        public string ImageLocation { get; set; }
+        public string LocationName { get; set; }
     
         public virtual Location Location { get; set; }
         public virtual User User { get; set; }

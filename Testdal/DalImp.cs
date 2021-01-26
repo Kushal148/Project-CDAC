@@ -1,23 +1,25 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using ProjectDatabaseLib;
+using System.Data.Entity.Migrations;
+using System.Data.Entity;
 
-namespace DataAccessl
+namespace Testdal
 {
-    public class DataAccessImplement : DalInterface
+    public class DalImp:DalInter
     {
-        Context dbcon;
-        public DataAccessImplement()
+        TourismWebsiteDBEntities dbcon;
+        public DalImp()
         {
-            dbcon = new Context();
+            dbcon = new TourismWebsiteDBEntities();
         }
         public bool CreateBlog(BlogSpace UserBlog)
         {
             bool status = false;
-            using (dbcon = new Context())
+            using (dbcon = new TourismWebsiteDBEntities())
             {
                 dbcon.BlogSpaces.Add(UserBlog);
                 int changes = dbcon.SaveChanges();
@@ -27,34 +29,35 @@ namespace DataAccessl
                 }
             }
 
-
+            dbcon.Dispose();
             return status;
         }
 
         public bool CreateUser(User obj)
         {
             bool status = false;
-            using (dbcon = new Context())
+            using (dbcon = new TourismWebsiteDBEntities())
             {
-                dbcon.User.Add(obj);
+                dbcon.Users.Add(obj);
                 int changes = dbcon.SaveChanges();
                 if (changes > 0)
                 {
                     status = true;
                 }
             }
+            dbcon.Dispose();
             return status;
         }
 
         public bool DeleteBlog(int id)
         {
             bool status = false;
-            using (dbcon = new Context())
+            using (dbcon = new TourismWebsiteDBEntities())
             {
                 var Todel = dbcon.BlogSpaces.Find(id);
                 dbcon.BlogSpaces.Remove(Todel);
                 int change = dbcon.SaveChanges();
-
+                dbcon.Dispose();
                 if (change > 0)
                     status = true;
             }
@@ -62,19 +65,20 @@ namespace DataAccessl
 
         }
 
-        public bool DeleteHotel(int id)
+        public Hotel DeleteHotel(int id)
         {
-            bool status = false;
-            using (dbcon = new Context())
+            //bool status = false;
+            Hotel hotel = new Hotel();
+            using (dbcon = new TourismWebsiteDBEntities())
             {
-                var Todel = dbcon.Hotels.Find(id);
-                dbcon.Hotels.Remove(Todel);
+                hotel = dbcon.Hotels.Find(id);
+                dbcon.Hotels.Remove(hotel);
                 int change = dbcon.SaveChanges();
-
-                if (change > 0)
-                    status = true;
+                dbcon.Dispose();
+               
+                   
             }
-            return status;
+            return hotel;
         }
 
         public bool DeleteLocation(int id)
@@ -92,7 +96,7 @@ namespace DataAccessl
         public bool DeletePlace(int id)
         {
             bool status = false;
-            using (dbcon = new Context())
+            using (dbcon = new TourismWebsiteDBEntities())
             {
                 var Todel = dbcon.TouristPlaces.Find(id);
                 dbcon.TouristPlaces.Remove(Todel);
@@ -101,66 +105,69 @@ namespace DataAccessl
                 if (change > 0)
                     status = true;
             }
+            dbcon.Dispose();
             return status;
         }
 
         public bool DeleteReview(int id)
         {
             bool status = false;
-            using (dbcon = new Context())
+            using (dbcon = new TourismWebsiteDBEntities())
             {
-                var Todel = dbcon.UserReview.Find(id);
-                dbcon.UserReview.Remove(Todel);
+                var Todel = dbcon.UserReviews.Find(id);
+                dbcon.UserReviews.Remove(Todel);
                 int change = dbcon.SaveChanges();
                 if (change > 0)
                     status = true;
             }
+            dbcon.Dispose();
             return status;
         }
 
         public bool DeleteUser(int id)
         {
             bool status = false;
-            using (dbcon = new Context())
+            using (dbcon = new TourismWebsiteDBEntities())
             {
-                var Todel = dbcon.User.Find(id);
-                dbcon.User.Remove(Todel);
+                var Todel = dbcon.Users.Find(id);
+                dbcon.Users.Remove(Todel);
                 int change = dbcon.SaveChanges();
                 if (change > 0)
                     status = true;
             }
+            dbcon.Dispose();
             return status;
         }
 
         public List<BlogSpace> GetAllBlogs()
         {
             List<BlogSpace> Bloglist = new List<BlogSpace>();
-            using (dbcon = new Context())
+            using (dbcon = new TourismWebsiteDBEntities())
             {
                 Bloglist = dbcon.BlogSpaces.ToList();
 
             }
-
+            dbcon.Dispose();
             return Bloglist;
         }
 
-        public List<Hotels> GetAllHotel()
+        public List<Hotel> GetAllHotel()
         {
 
-            List<Hotels> Hotellist = new List<Hotels>();
-            using (dbcon = new Context())
+            List<Hotel> Hotellist = new List<Hotel>();
+            using (dbcon = new TourismWebsiteDBEntities())
             {
                 Hotellist = dbcon.Hotels.ToList();
 
             }
-
+            dbcon.Dispose();
             return Hotellist;
         }
 
-        public List<Locations> GetAllLocations()
+        public List<Location> GetAllLocations()
         {
-            List<Locations> LocList = new List<Locations>();
-            using (dbcon = new Context())
+            List<Location> LocList = new List<Location>();
+            using (dbcon = new TourismWebsiteDBEntities())
             {
 
                 LocList = dbcon.Locations.ToList();
@@ -168,145 +175,157 @@ namespace DataAccessl
 
 
             }
-
+            dbcon.Dispose();
             return LocList;
         }
 
-        public List<TouristPlaces> GetAllPlace()
+        public List<TouristPlace> GetAllPlace()
         {
-            List<TouristPlaces> TPlaceList = new List<TouristPlaces>();
-            using (dbcon = new Context())
+            List<TouristPlace> TPlaceList = new List<TouristPlace>();
+            using (dbcon = new TourismWebsiteDBEntities())
             {
                 TPlaceList = dbcon.TouristPlaces.ToList();
 
             }
-
+            dbcon.Dispose();
             return TPlaceList;
         }
 
         public List<User> GetAllUsers()
         {
             List<User> UserList = new List<User>();
-            using (dbcon = new Context())
+            using (dbcon = new TourismWebsiteDBEntities())
             {
-                UserList = dbcon.User.ToList();
+                UserList = dbcon.Users.ToList();
 
             }
-
+            dbcon.Dispose();
             return UserList;
         }
 
         public List<BlogSpace> GetBlogs(string title)
         {
             List<BlogSpace> BlogList = new List<BlogSpace>();
-            using (dbcon = new Context())
+            using (dbcon = new TourismWebsiteDBEntities())
             {
                 BlogList = dbcon.BlogSpaces.Where(x => x.Title == title).ToList();
 
 
             }
-
+            dbcon.Dispose();
             return BlogList;
         }
 
         public List<BlogSpace> GetBlogsByLocation(string location)
         {
             List<BlogSpace> BlogList = new List<BlogSpace>();
-            using (dbcon = new Context())
+            using (dbcon = new TourismWebsiteDBEntities())
             {
                 BlogList = dbcon.BlogSpaces.Where(x => (string)x.LocationName == location).ToList();
 
             }
-
+            dbcon.Dispose();
             return BlogList;
         }
 
 
-        public List<double> GetCoordinates(string location)
+        /*        public List<double> GetCoordinates(string location)
+                {
+                    List<double> coords = new List<double>();
+                    using (dbcon = new TourismWebsiteDBEntities())
+                    {
+                        var req = dbcon.Locations.Where(x => x.LocationName == location).FirstOrDefault();
+                        coords.Add(req.Latitude);
+                        coords.Add(req.Longitude);
+
+                    }
+                    return coords;
+                }
+
+        */
+        public Location GetCoordinates(string location)
         {
-            List<double> coords = new List<double>();
-            using (dbcon = new Context())
+            Location coords = new Location();
+            using (dbcon = new TourismWebsiteDBEntities())
             {
-                var req = dbcon.Locations.Where(x => x.LocationName == location).FirstOrDefault();
-                coords.Add(req.Latitude);
-                coords.Add(req.Longitude);
+                coords = dbcon.Locations.Where(x => x.LocationName == location).FirstOrDefault();
+
 
             }
+            dbcon.Dispose();
             return coords;
         }
 
-
-
-        public Hotels GetHotelPrice(int id)
+        public Hotel GetHotelPrice(int id)
         {
-            Hotels HotelPrice = null;
-            using (dbcon = new Context())
+            Hotel HotelPrice = null;
+            using (dbcon = new TourismWebsiteDBEntities())
             {
-                HotelPrice = (Hotels)dbcon.Hotels.Where(x => x.Id == id).First();
+                HotelPrice = (Hotel)dbcon.Hotels.Where(x => x.Id == id).First();
 
             }
-
+            dbcon.Dispose();
             return HotelPrice;
 
         }
 
-        public List<Hotels> GetHotelsByLocation(int Locationid)
+        public List<Hotel> GetHotelsByLocation(int Locationid)
         {
-            List<Hotels> HotelList = new List<Hotels>();
-            using (dbcon = new Context())
+            List<Hotel> HotelList = new List<Hotel>();
+            using (dbcon = new TourismWebsiteDBEntities())
             {
                 HotelList = dbcon.Hotels.Where(x => (int)x.LocationId == Locationid).ToList();
 
             }
-
+            dbcon.Dispose();
             return HotelList;
         }
 
-        public List<Hotels> GetHotelsByName(string Name)
+        public List<Hotel> GetHotelsByName(string Name)
         {
-            List<Hotels> HotelsListByName = new List<Hotels>();
-            using (dbcon = new Context())
+            List<Hotel> HotelsListByName = new List<Hotel>();
+            using (dbcon = new TourismWebsiteDBEntities())
             {
                 HotelsListByName = dbcon.Hotels.Where(x => (string)x.HotelName == Name).ToList();
 
             }
-
+            dbcon.Dispose();
             return HotelsListByName;
         }
 
-        public List<TouristPlaces> GetPlacesByLocation(int Locationid)
+        public List<TouristPlace> GetPlacesByLocation(int Locationid)
         {
-            List<TouristPlaces> PlacesListbyLocation = new List<TouristPlaces>();
-            using (dbcon = new Context())
+            List<TouristPlace> PlacesListbyLocation = new List<TouristPlace>();
+            using (dbcon = new TourismWebsiteDBEntities())
             {
                 PlacesListbyLocation = dbcon.TouristPlaces.Where(x => (int)x.LocationId == Locationid).ToList();
 
             }
-
+            dbcon.Dispose();
             return PlacesListbyLocation;
         }
 
-        public List<TouristPlaces> GetPlacesByName(string Name)
+        public List<TouristPlace> GetPlacesByName(string Name)
         {
-            List<TouristPlaces> PlacesListbyName = new List<TouristPlaces>();
-            using (dbcon = new Context())
+            List<TouristPlace> PlacesListbyName = new List<TouristPlace>();
+            using (dbcon = new TourismWebsiteDBEntities())
             {
                 PlacesListbyName = dbcon.TouristPlaces.Where(x => (string)x.PlaceName == Name).ToList();
 
             }
-
+            dbcon.Dispose();
             return PlacesListbyName;
         }
 
-        public List<TouristPlaces> GetPlacesByRating(int Rating)
+        public List<TouristPlace> GetPlacesByRating(int Rating)
         {
-            List<TouristPlaces> PlacesByRating = new List<TouristPlaces>();
-            using (dbcon = new Context())
+            List<TouristPlace> PlacesByRating = new List<TouristPlace>();
+            using (dbcon = new TourismWebsiteDBEntities())
             {
-                PlacesByRating = dbcon.TouristPlaces.Where(x => (int)x.Ratings == Rating).ToList();
+                PlacesByRating = dbcon.TouristPlaces.Where(x => x.Ratings == Rating).ToList();
 
             }
-
+            dbcon.Dispose();
             return PlacesByRating;
         }
 
@@ -314,13 +333,14 @@ namespace DataAccessl
         {
 
             List<UserReview> UList = new List<UserReview>();
+
             return UList;
         }
 
-        public bool InsertHotel(Hotels obj)
+        public bool InsertHotel(Hotel obj)
         {
             bool status = false;
-            using (dbcon = new Context())
+            using (dbcon = new TourismWebsiteDBEntities())
             {
                 dbcon.Hotels.Add(obj);
                 int changes = dbcon.SaveChanges();
@@ -329,13 +349,14 @@ namespace DataAccessl
                     status = true;
                 }
             }
-            return status;
+            dbcon.Dispose();
+            return status; 
         }
 
-        public async Task<bool> InsertLocation(Locations obj)
+        public async Task<bool> InsertLocation(Location obj)
         {
             bool status = false;
-            using (dbcon = new Context())
+            using (dbcon = new TourismWebsiteDBEntities())
             {
                 dbcon.Locations.Add(obj);
                 int changes = await dbcon.SaveChangesAsync();
@@ -344,13 +365,14 @@ namespace DataAccessl
                     status = true;
                 }
             }
+            dbcon.Dispose();
             return status;
         }
 
-        public bool InsertTPlace(TouristPlaces obj)
+        public bool InsertTPlace(TouristPlace obj)
         {
             bool status = false;
-            using (dbcon = new Context())
+            using (dbcon = new TourismWebsiteDBEntities())
             {
                 dbcon.TouristPlaces.Add(obj);
                 int changes = dbcon.SaveChanges();
@@ -359,28 +381,30 @@ namespace DataAccessl
                     status = true;
                 }
             }
+            dbcon.Dispose();
             return status;
         }
 
         public bool RatingAPlace(UserReview Review)
         {
             bool status = false;
-            using (dbcon = new Context())
+            using (dbcon = new TourismWebsiteDBEntities())
             {
-                dbcon.UserReview.Add(Review);
+                dbcon.UserReviews.Add(Review);
                 int changes = dbcon.SaveChanges();
                 if (changes > 0)
                 {
                     status = true;
                 }
             }
+            dbcon.Dispose();
             return status;
         }
 
         public bool UpdateBlog(BlogSpace obj)
         {
             bool status = false;
-            using (dbcon = new Context())
+            using (dbcon = new TourismWebsiteDBEntities())
             {
                 dbcon.BlogSpaces.Add(obj);
                 int changes = dbcon.SaveChanges();
@@ -389,28 +413,54 @@ namespace DataAccessl
                     status = true;
                 }
             }
+            dbcon.Dispose();
             return status;
         }
 
-        public bool UpdateHotel(Hotels obj)
+        public Hotel GetHotel(int id)
+        {
+            Hotel hotel = new Hotel();
+            using (dbcon = new TourismWebsiteDBEntities())
+            {
+                 hotel = dbcon.Hotels.Find(id);
+            }
+            dbcon.Dispose();
+            return hotel;
+        }
+        public bool UpdateHotel(Hotel obj)
         {
             bool status = false;
-            using (dbcon = new Context())
-            {
-                dbcon.Hotels.Add(obj);
+              using (dbcon = new TourismWebsiteDBEntities())
+              {
+                var getobj = dbcon.Hotels.Where(s => s.Id == obj.Id).First();
+                if(obj.hotelImage != null)
+                {
+                    getobj.hotelImage = obj.hotelImage;
+                }
+                
+                getobj.HotelName = obj.HotelName;
+                getobj.Hoteltype = obj.Hoteltype;
+                getobj.Price = obj.Price;
                 int changes = dbcon.SaveChanges();
+
+
                 if (changes > 0)
                 {
                     status = true;
                 }
+                /*      dbcon.Entry(obj).State = EntityState.Modified;
+                      if (dbcon.SaveChanges() > 0)
+                          status = true;*/
             }
+             
+            
             return status;
         }
 
-        public bool UpdateLocation(Locations obj)
+        public bool UpdateLocation(Location obj)
         {
             bool status = false;
-            using (dbcon = new Context())
+            using (dbcon = new TourismWebsiteDBEntities())
             {
                 dbcon.Locations.Add(obj);
                 int changes = dbcon.SaveChanges();
@@ -419,13 +469,14 @@ namespace DataAccessl
                     status = true;
                 }
             }
+            dbcon.Dispose();
             return status;
         }
 
-        public bool UpdatePlace(TouristPlaces obj)
+        public bool UpdatePlace(TouristPlace obj)
         {
             bool status = false;
-            using (dbcon = new Context())
+            using (dbcon = new TourismWebsiteDBEntities())
             {
                 var uobj = dbcon.TouristPlaces.Where(x => x.Id == obj.Id).First();
                 uobj.PlaceName = obj.PlaceName;
@@ -437,16 +488,16 @@ namespace DataAccessl
                     status = true;
                 }
             }
-
+            dbcon.Dispose();
             return status;
         }
 
         public bool UpdateUser(User obj)
         {
             bool status = false;
-            using (dbcon = new Context())
+            using (dbcon = new TourismWebsiteDBEntities())
             {
-                var uobj = dbcon.User.Where(x => x.UserId == obj.UserId).First();
+                var uobj = dbcon.Users.Where(x => x.UserId == obj.UserId).First();
                 uobj.UserName = obj.UserName;
                 uobj.Isactive = obj.Isactive;
                 uobj.ContactNumber = obj.ContactNumber;
@@ -456,8 +507,9 @@ namespace DataAccessl
                     status = true;
                 }
             }
-
+            dbcon.Dispose();
             return status;
         }
+
     }
 }
