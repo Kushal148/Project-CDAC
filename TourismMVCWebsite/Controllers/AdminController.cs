@@ -354,35 +354,39 @@ namespace TourismMVCWebsite.Controllers
                         if (file.ContentLength <= 10000000)
                         {
                             changes = con.UpdateHotel(obj);
-                        }
-                        if (changes == true)
-                        {
-                            file.SaveAs(path);
-                            ViewBag.msg = "Hotel Updated";
-                            ModelState.Clear();
-                        }
-                        string OldImage = Request.MapPath(Session["oldImage"].ToString());
-                        if (OldImage != obj.hotelImage.ToString())
-                        {
-                            if (System.IO.File.Exists(OldImage))
+                            string OldImage = Request.MapPath(Session["oldImage"].ToString());
+                            if (changes == true)
                             {
-                                System.IO.File.Delete(OldImage);
+                                file.SaveAs(path);
+                                if (OldImage != obj.hotelImage.ToString())
+                                {
+                                    if (System.IO.File.Exists(OldImage))
+                                    {
+                                        System.IO.File.Delete(OldImage);
+                                    }
+                                }
+                                /*ViewBag.msg = "Hotel Updated";
+                                ModelState.Clear();*/
                             }
                         }
 
+                        else
+                        {
+                            ViewBag.msg = "Size is not valid";
+                        }
                     }
-                    else
-                    {
-                        ViewBag.msg = "Size is not valid";
-                    }
-
                 }
-                 
+                }
+                 else
                 {
                     obj.hotelImage = Session["oldImage"].ToString();
-                     con.UpdateHotel(obj);
+                    if (con.UpdateHotel(obj))
+                    {
+                    return RedirectToAction("Hotels");
+                    }
+                    
                 }
-            }
+            
                     return View();  
         }
         public ActionResult HotelDelete(int? id)

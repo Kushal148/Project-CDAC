@@ -54,8 +54,8 @@
         <div class="form-group">
             @Html.LabelFor(model => model.hotelImage, htmlAttributes: new { @class = "control-label col-md-2" })
             <div class="col-md-10">
-               @Html.EditorFor(model => model.hotelImage, new { htmlAttributes = new { @class = "form-control" } })
-                <img src="@Url.Content(Session["OldImage"].ToString())" width="100" height="70" />
+@*               @Html.EditorFor(model => model.hotelImage, new { htmlAttributes = new { @class = "form-control" } })
+*@                <img src="@Url.Content(Session["OldImage"].ToString())" width="100" height="70" />
                 <input type="file" id="file" name="file" />
                 @Html.ValidationMessageFor(model => model.hotelImage, "", new { @class = "text-danger" })
             </div>
