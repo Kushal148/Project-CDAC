@@ -14,7 +14,7 @@ namespace Testdal
         TourismWebsiteDBEntities dbcon;
         public DalImp()
         {
-            dbcon = new TourismWebsiteDBEntities();
+          
         }
         public bool CreateBlog(BlogSpace UserBlog)
         {
@@ -29,7 +29,7 @@ namespace Testdal
                 }
             }
 
-            dbcon.Dispose();
+          
             return status;
         }
 
@@ -45,7 +45,7 @@ namespace Testdal
                     status = true;
                 }
             }
-            dbcon.Dispose();
+
             return status;
         }
 
@@ -57,7 +57,6 @@ namespace Testdal
                 var Todel = dbcon.BlogSpaces.Find(id);
                 dbcon.BlogSpaces.Remove(Todel);
                 int change = dbcon.SaveChanges();
-                dbcon.Dispose();
                 if (change > 0)
                     status = true;
             }
@@ -74,7 +73,7 @@ namespace Testdal
                 hotel = dbcon.Hotels.Find(id);
                 dbcon.Hotels.Remove(hotel);
                 int change = dbcon.SaveChanges();
-                dbcon.Dispose();
+              
                
                    
             }
@@ -87,7 +86,7 @@ namespace Testdal
             var Todel = dbcon.Locations.Find(id);
             dbcon.Locations.Remove(Todel);
             int change = dbcon.SaveChanges();
-            dbcon.Dispose();
+            
             if (change > 0)
                 status = true;
             return status;
@@ -105,7 +104,7 @@ namespace Testdal
                 if (change > 0)
                     status = true;
             }
-            dbcon.Dispose();
+           
             return status;
         }
 
@@ -120,7 +119,7 @@ namespace Testdal
                 if (change > 0)
                     status = true;
             }
-            dbcon.Dispose();
+           
             return status;
         }
 
@@ -135,7 +134,7 @@ namespace Testdal
                 if (change > 0)
                     status = true;
             }
-            dbcon.Dispose();
+
             return status;
         }
 
@@ -147,7 +146,7 @@ namespace Testdal
                 Bloglist = dbcon.BlogSpaces.ToList();
 
             }
-            dbcon.Dispose();
+            
             return Bloglist;
         }
 
@@ -160,7 +159,7 @@ namespace Testdal
                 Hotellist = dbcon.Hotels.ToList();
 
             }
-            dbcon.Dispose();
+            
             return Hotellist;
         }
 
@@ -175,7 +174,7 @@ namespace Testdal
 
 
             }
-            dbcon.Dispose();
+            
             return LocList;
         }
 
@@ -187,7 +186,7 @@ namespace Testdal
                 TPlaceList = dbcon.TouristPlaces.ToList();
 
             }
-            dbcon.Dispose();
+           
             return TPlaceList;
         }
 
@@ -199,7 +198,7 @@ namespace Testdal
                 UserList = dbcon.Users.ToList();
 
             }
-            dbcon.Dispose();
+           
             return UserList;
         }
 
@@ -212,7 +211,7 @@ namespace Testdal
 
 
             }
-            dbcon.Dispose();
+           
             return BlogList;
         }
 
@@ -224,7 +223,7 @@ namespace Testdal
                 BlogList = dbcon.BlogSpaces.Where(x => (string)x.LocationName == location).ToList();
 
             }
-            dbcon.Dispose();
+            
             return BlogList;
         }
 
@@ -252,7 +251,7 @@ namespace Testdal
 
 
             }
-            dbcon.Dispose();
+            
             return coords;
         }
 
@@ -264,7 +263,7 @@ namespace Testdal
                 HotelPrice = (Hotel)dbcon.Hotels.Where(x => x.Id == id).First();
 
             }
-            dbcon.Dispose();
+            
             return HotelPrice;
 
         }
@@ -277,7 +276,7 @@ namespace Testdal
                 HotelList = dbcon.Hotels.Where(x => (int)x.LocationId == Locationid).ToList();
 
             }
-            dbcon.Dispose();
+            
             return HotelList;
         }
 
@@ -289,7 +288,7 @@ namespace Testdal
                 HotelsListByName = dbcon.Hotels.Where(x => (string)x.HotelName == Name).ToList();
 
             }
-            dbcon.Dispose();
+            
             return HotelsListByName;
         }
 
@@ -301,7 +300,7 @@ namespace Testdal
                 PlacesListbyLocation = dbcon.TouristPlaces.Where(x => (int)x.LocationId == Locationid).ToList();
 
             }
-            dbcon.Dispose();
+            
             return PlacesListbyLocation;
         }
 
@@ -313,7 +312,7 @@ namespace Testdal
                 PlacesListbyName = dbcon.TouristPlaces.Where(x => (string)x.PlaceName == Name).ToList();
 
             }
-            dbcon.Dispose();
+            
             return PlacesListbyName;
         }
 
@@ -325,7 +324,7 @@ namespace Testdal
                 PlacesByRating = dbcon.TouristPlaces.Where(x => x.Ratings == Rating).ToList();
 
             }
-            dbcon.Dispose();
+           
             return PlacesByRating;
         }
 
@@ -349,7 +348,7 @@ namespace Testdal
                     status = true;
                 }
             }
-            dbcon.Dispose();
+            
             return status; 
         }
 
@@ -365,7 +364,7 @@ namespace Testdal
                     status = true;
                 }
             }
-            dbcon.Dispose();
+           
             return status;
         }
 
@@ -381,7 +380,7 @@ namespace Testdal
                     status = true;
                 }
             }
-            dbcon.Dispose();
+           
             return status;
         }
 
@@ -397,7 +396,7 @@ namespace Testdal
                     status = true;
                 }
             }
-            dbcon.Dispose();
+          
             return status;
         }
 
@@ -413,7 +412,7 @@ namespace Testdal
                     status = true;
                 }
             }
-            dbcon.Dispose();
+          
             return status;
         }
 
@@ -424,7 +423,7 @@ namespace Testdal
             {
                  hotel = dbcon.Hotels.Find(id);
             }
-            dbcon.Dispose();
+           
             return hotel;
         }
         public bool UpdateHotel(Hotel obj)
@@ -436,24 +435,16 @@ namespace Testdal
                 if(obj.hotelImage != null)
                 {
                     getobj.hotelImage = obj.hotelImage;
-                }
-                
+                }               
                 getobj.HotelName = obj.HotelName;
                 getobj.Hoteltype = obj.Hoteltype;
                 getobj.Price = obj.Price;
                 int changes = dbcon.SaveChanges();
-
-
                 if (changes > 0)
                 {
                     status = true;
-                }
-                /*      dbcon.Entry(obj).State = EntityState.Modified;
-                      if (dbcon.SaveChanges() > 0)
-                          status = true;*/
-            }
-             
-            
+                }       
+            }                       
             return status;
         }
 
@@ -469,7 +460,7 @@ namespace Testdal
                     status = true;
                 }
             }
-            dbcon.Dispose();
+        
             return status;
         }
 
@@ -487,8 +478,7 @@ namespace Testdal
                 {
                     status = true;
                 }
-            }
-            dbcon.Dispose();
+            }            
             return status;
         }
 
@@ -506,8 +496,7 @@ namespace Testdal
                 {
                     status = true;
                 }
-            }
-            dbcon.Dispose();
+            }            
             return status;
         }
 

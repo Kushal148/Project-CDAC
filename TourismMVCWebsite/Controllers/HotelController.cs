@@ -33,5 +33,7 @@ namespace TourismMVCWebsite.Controllers
                 return View(Lhotels);
             
         }
+
+        
     }
 }
